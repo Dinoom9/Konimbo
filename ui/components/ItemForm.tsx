@@ -81,15 +81,33 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
     setSubmitError(null);
     
     try {
+      console.log('Submitting form data:', data);
       if (isEditing && item) {
+        console.log('Updating item:', item.id);
         await updateItemAction(item.id, data);
       } else {
+        console.log('Creating new item');
         await createItemAction(data);
       }
       
+      console.log('Action completed successfully');
       // Server Actions handle redirect and revalidation automatically
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'אירעה שגיאה בשמירת הפריט');
+      // Ignore NEXT_REDIRECT errors - these are not real errors but Next.js redirect mechanism
+      if (err instanceof Error && err.message.includes('NEXT_REDIRECT')) {
+        console.log('🔀 Redirect successful');
+        return;
+      }
+      
+      console.error('❌ Form submission error:', err);
+      console.error('❌ Error details:', {
+        name: err instanceof Error ? err.name : 'Unknown',
+        message: err instanceof Error ? err.message : 'Unknown error',
+        stack: err instanceof Error ? err.stack : undefined
+      });
+      
+      const errorMessage = err instanceof Error ? err.message : 'אירעה שגיאה בשמירת הפריט';
+      setSubmitError(errorMessage);
     }
   };
 

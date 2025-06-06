@@ -1,43 +1,23 @@
 [
   {
-    "id": 6,
-    "name": "עוף שלם טרי",
-    "description": "עוף שלם טרי 1.5 ק\"ג",
-    "price": 24.9,
-    "category": "בשר ועוף",
-    "inStock": true,
-    "createdAt": "2024-01-06T00:00:00.000Z",
-    "updatedAt": "2024-01-06T00:00:00.000Z"
-  },
-  {
-    "id": 24,
-    "name": "גבינה צהובה",
-    "description": "גבינה צהובה קשה איכותית 200 גרם",
-    "price": 12.9,
-    "category": "חלב וביצים",
-    "inStock": false,
-    "createdAt": "2025-06-05T11:00:00.000Z",
-    "updatedAt": "2025-06-05T13:00:00.000Z"
-  },
-  {
     "id": 26,
     "name": "אורז בסמטי",
     "description": "אורז בסמטי איכותי 1 ק\"ג",
-    "price": 15.9,
-    "category": "חטיפים ומזון יבש",
+    "price": 30,
+    "category": "אורז ופסטה",
     "inStock": false,
     "createdAt": "2025-06-05T11:02:00.000Z",
-    "updatedAt": "2025-06-05T13:01:00.000Z"
+    "updatedAt": "2025-06-06T13:15:19.758Z"
   },
   {
     "id": 27,
     "name": "עגבניות גדולות",
     "description": "עגבניות בשליות טריות 1 ק\"ג",
-    "price": 8.9,
+    "price": 6.7,
     "category": "פירות וירקות",
     "inStock": true,
     "createdAt": "2025-06-05T11:03:00.000Z",
-    "updatedAt": "2025-06-05T11:03:00.000Z"
+    "updatedAt": "2025-06-06T13:20:36.974Z"
   },
   {
     "id": 28,
@@ -107,6 +87,36 @@
     "category": "חלב ומוצרי חלב",
     "inStock": true,
     "createdAt": "2025-06-06T09:19:17.886Z",
+    "updatedAt": ""
+  },
+  {
+    "id": 35,
+    "name": "במבה",
+    "description": "במבה של אסם",
+    "price": 6.9,
+    "category": "לחם ומאפים",
+    "inStock": true,
+    "createdAt": "2025-06-06T12:57:19.285Z",
+    "updatedAt": ""
+  },
+  {
+    "id": 36,
+    "name": "כגכג",
+    "description": "גכגכגכגכגכ",
+    "price": 121,
+    "category": "שמנים ותבלינים",
+    "inStock": true,
+    "createdAt": "2025-06-06T12:57:48.285Z",
+    "updatedAt": ""
+  },
+  {
+    "id": 37,
+    "name": "קרונפלקס אלופים",
+    "description": "גדכגדכגדדבבגג",
+    "price": 12,
+    "category": "פירות וירקות",
+    "inStock": true,
+    "createdAt": "2025-06-06T12:59:58.920Z",
     "updatedAt": ""
   }
 ]

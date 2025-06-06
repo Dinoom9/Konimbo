@@ -50,7 +50,6 @@ export default function SearchAndFilters({ onFiltersChange, initialFilters = {} 
     const timer = setTimeout(() => {
       const filters: FilterOptions = {};
       
-      // Always include all filter values, even if empty (for clearing)
       const searchValue = search.trim();
       if (searchValue) {
         filters.search = searchValue;
@@ -70,7 +69,6 @@ export default function SearchAndFilters({ onFiltersChange, initialFilters = {} 
         filters.maxPrice = maxPriceValue;
       }
 
-      // Add sort options
       if (sortBy) {
         const [field, order] = sortBy.split('-');
         filters.sort = {
@@ -142,43 +140,42 @@ export default function SearchAndFilters({ onFiltersChange, initialFilters = {} 
           />
         </div>
 
-        {/* קטגוריה ומיון */}
-        <div className="flex flex-col lg:flex-row lg:gap-4">
-          <div className="flex-1">
-            <Label className="block text-sm font-medium text-gray-700 mb-2">
-              קטגוריה
-            </Label>
-            <Select value={category || "all"} onValueChange={(value) => setCategory(value === "all" ? '' : value)}>
-              <SelectTrigger className="h-10 px-3 py-2">
-                <SelectValue placeholder="כל הקטגוריות" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">כל הקטגוריות</SelectItem>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* קטגוריה */}
+        <div>
+          <Label className="block text-sm font-medium text-gray-700 mb-2">
+            קטגוריה
+          </Label>
+          <Select value={category || "all"} onValueChange={(value) => setCategory(value === "all" ? '' : value)}>
+            <SelectTrigger className="h-10 px-3 py-2 w-full" dir="rtl">
+              <SelectValue placeholder="כל הקטגוריות" />
+            </SelectTrigger>
+            <SelectContent dir="rtl">
+              <SelectItem value="all">כל הקטגוריות</SelectItem>
+              {categories.map((cat) => (
+                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-          <div className="flex-1">
-            <Label className="block text-sm font-medium text-gray-700 mb-2">
-              מיון לפי
-            </Label>
-            <Select value={sortBy || "none"} onValueChange={(value) => setSortBy(value === "none" ? '' : value)}>
-              <SelectTrigger className="h-10 px-3 py-2">
-                <SelectValue placeholder="ללא מיון" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">ללא מיון</SelectItem>
-                {sortOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* מיון לפי */}
+        <div>
+          <Label className="block text-sm font-medium text-gray-700 mb-2">
+            מיון לפי
+          </Label>
+          <Select value={sortBy || "none"} onValueChange={(value) => setSortBy(value === "none" ? '' : value)}>
+            <SelectTrigger className="h-10 px-3 py-2 w-full" dir="rtl">
+              <SelectValue placeholder="ללא מיון" />
+            </SelectTrigger>
+            <SelectContent dir="rtl">
+              <SelectItem value="none">ללא מיון</SelectItem>
+              {sortOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -196,4 +193,4 @@ export default function SearchAndFilters({ onFiltersChange, initialFilters = {} 
       )}
     </div>
   );
-} 
+}

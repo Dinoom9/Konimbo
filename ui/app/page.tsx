@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import ItemsGrid from '@/components/ItemsGrid';
 import Loading from '@/components/Loading';
 import { fetchItemsAction } from '@/actions/items.action';
+import { processSearchParams } from '@/lib/utils';
 
 
 interface PageProps {
@@ -20,18 +21,8 @@ export default async function HomePage({ searchParams }: PageProps) {
   // Await searchParams before using its properties
   const params = await searchParams;
   
-  const filters = {
-    ...(params.search && { search: params.search }),
-    ...(params.category && { category: params.category }),
-    ...(params.minPrice && { minPrice: Number(params.minPrice) }),
-    ...(params.maxPrice && { maxPrice: Number(params.maxPrice) }),
-    ...(params.sortBy && params.sortOrder && {
-      sort: {
-        field: params.sortBy as keyof import('@/types').Item,
-        order: params.sortOrder as 'asc' | 'desc'
-      }
-    }),
-  };
+  // Process search parameters into filters object
+  const filters = processSearchParams(params);
 
   let initialData;
   let error = null;

@@ -102,15 +102,29 @@ export async function fetchItemByIdAction(id: number): Promise<Item> {
 }
 // create an item
 export async function createItemAction(data: ItemFormData) {
+  console.log('🚀 Starting createItemAction with data:', data);
+  
   try {
+    console.log('📡 Making API request to create item...');
     const item = await apiRequest<Item>('/items', {
       method: 'POST',
       body: JSON.stringify(data),
     });
     
+    console.log('✅ Item created successfully:', item);
+    
+    console.log('🔄 Revalidating path...');
     revalidatePath('/');
+    
+    console.log('🔀 Redirecting to home page...');
     redirect('/');
   } catch (error) {
+    console.error('❌ Error creating item:', error);
+    console.error('❌ Full error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
     throw error;
   }
 }
@@ -126,6 +140,7 @@ export async function updateItemAction(id: number, data: ItemFormData) {
     revalidatePath(`/items/${id}`);
     redirect('/');
   } catch (error) {
+    console.error('❌ Error updating item:', error);
     throw error;
   }
 }

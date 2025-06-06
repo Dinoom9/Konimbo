@@ -36,7 +36,7 @@ export class ItemService {
       category: itemData.category,
       inStock: itemData.inStock ?? true,
       createdAt: new Date().toISOString(),
-      updatedAt: ''
+      updatedAt: new Date().toISOString()
     };
 
     items.push(newItem);
@@ -54,7 +54,8 @@ export class ItemService {
 
     items[itemIndex] = {
       ...items[itemIndex],
-      ...itemData
+      ...itemData,
+      updatedAt: new Date().toISOString()
     };
 
     await this.saveItems(items);

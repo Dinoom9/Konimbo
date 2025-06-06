@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * בונה URLSearchParams מאובייקט filters
+ * Builds URLSearchParams from filters object
  */
 export function buildQueryParams(filters?: FilterOptions): URLSearchParams {
   const queryParams = new URLSearchParams();
@@ -25,7 +25,7 @@ export function buildQueryParams(filters?: FilterOptions): URLSearchParams {
 }
 
 /**
- * מבצע sorting על מערך פריטים לפי הפרמטרים שניתנו
+ * Performs sorting on items array based on given parameters
  */
 export function sortItems<T extends Record<string, any>>(
   items: T[], 
@@ -55,7 +55,7 @@ export function sortItems<T extends Record<string, any>>(
 }
 
 /**
- * מעצב תוצאת API לפורמט ItemsResponse תקני
+ * Formats API response to standard ItemsResponse format
  */
 export function formatItemsResponse(response: any): ItemsResponse {
   // Handle null or undefined response
@@ -84,7 +84,7 @@ export function formatItemsResponse(response: any): ItemsResponse {
 }
 
 /**
- * בונה URL עם query parameters אם קיימים
+ * Builds URL with query parameters if they exist
  */
 export function buildUrlWithQuery(baseUrl: string, queryParams: URLSearchParams): string {
   const queryString = queryParams.toString();
@@ -110,3 +110,28 @@ export const formatDate = (dateString: string) => {
     minute: '2-digit'
   });
 };
+
+/**
+ * Processes searchParams and returns filters object
+ */
+export function processSearchParams(params: {
+  search?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  sortBy?: string;
+  sortOrder?: string;
+}): FilterOptions {
+  return {
+    ...(params.search && { search: params.search }),
+    ...(params.category && { category: params.category }),
+    ...(params.minPrice && { minPrice: Number(params.minPrice) }),
+    ...(params.maxPrice && { maxPrice: Number(params.maxPrice) }),
+    ...(params.sortBy && params.sortOrder && {
+      sort: {
+        field: params.sortBy as keyof Item,
+        order: params.sortOrder as 'asc' | 'desc'
+      }
+    }),
+  };
+}
