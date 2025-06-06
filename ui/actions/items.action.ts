@@ -33,7 +33,21 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
     if (!response.ok) {
       throw new ApiError(response.status, `API Error: ${response.statusText}`);
     }
-    const data = await response.json();
+    
+    // Handle empty responses (like DELETE requests that return 204 No Content)
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      // For DELETE requests or empty responses, return null
+      return null as T;
+    }
+    
+    const text = await response.text();
+    if (!text.trim()) {
+      // Empty response body
+      return null as T;
+    }
+    
+    const data = JSON.parse(text);
     console.log('🔍 Data:', data);
     return data as T;
   } catch (error) {
@@ -119,10 +133,11 @@ export async function updateItemAction(id: number, data: ItemFormData) {
 export async function deleteItemAction(id: number) {
   console.log('🗑️ Deleting item with ID:', id);
   try {
-    await apiRequest(`/items/${id}`, { method: 'DELETE' });
+    const result = await apiRequest(`/items/${id}`, { method: 'DELETE' });
     console.log('✅ Item deleted successfully');
     
     revalidatePath('/');
+    return result;
   } catch (error) {
     console.error('❌ Error deleting item:', error);
     throw error;

@@ -11,7 +11,9 @@ interface PageProps {
 
 // This page uses SSR
 export default async function ItemPage({ params }: PageProps) {
-  const itemId = parseInt(params.id);
+  // Await params before using its properties
+  const resolvedParams = await params;
+  const itemId = parseInt(resolvedParams.id);
   
   if (isNaN(itemId)) {
     notFound();

@@ -17,15 +17,18 @@ interface PageProps {
 
 // This page uses SSR
 export default async function HomePage({ searchParams }: PageProps) {
+  // Await searchParams before using its properties
+  const params = await searchParams;
+  
   const filters = {
-    ...(searchParams.search && { search: searchParams.search }),
-    ...(searchParams.category && { category: searchParams.category }),
-    ...(searchParams.minPrice && { minPrice: Number(searchParams.minPrice) }),
-    ...(searchParams.maxPrice && { maxPrice: Number(searchParams.maxPrice) }),
-    ...(searchParams.sortBy && searchParams.sortOrder && {
+    ...(params.search && { search: params.search }),
+    ...(params.category && { category: params.category }),
+    ...(params.minPrice && { minPrice: Number(params.minPrice) }),
+    ...(params.maxPrice && { maxPrice: Number(params.maxPrice) }),
+    ...(params.sortBy && params.sortOrder && {
       sort: {
-        field: searchParams.sortBy as keyof import('@/types').Item,
-        order: searchParams.sortOrder as 'asc' | 'desc'
+        field: params.sortBy as keyof import('@/types').Item,
+        order: params.sortOrder as 'asc' | 'desc'
       }
     }),
   };
