@@ -1,0 +1,16 @@
+# כלליים
+node_modules/
+dist/
+.env
+.DS_Store
+
+# UI
+ui/node_modules/
+ui/dist/
+
+# Server (אם זה .NET)
+server/bin/
+server/obj/
+
+# Server (אם זה Node.js)
+server/node_modules/
