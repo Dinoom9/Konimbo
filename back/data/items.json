@@ -6,16 +6,18 @@
     "price": 24.9,
     "category": "בשר ועוף",
     "inStock": true,
-    "createdAt": "2024-01-06T00:00:00.000Z"
+    "createdAt": "2024-01-06T00:00:00.000Z",
+    "updatedAt": "2024-01-06T00:00:00.000Z"
   },
   {
     "id": 9,
     "name": "מלפפונים",
-    "description": "ששש",
-    "price": 5.9,
+    "description": "מלפוונים הכי טובים בישראל",
+    "price": 8,
     "category": "פירות וירקות",
     "inStock": true,
-    "createdAt": "2025-06-05T06:59:10.949Z"
+    "createdAt": "2025-06-05T06:59:10.949Z",
+    "updatedAt": "2025-06-05T12:30:00.000Z"
   },
   {
     "id": 11,
@@ -23,7 +25,118 @@
     "description": "קלמנטינות היישר מהפרדס טעם של פעם",
     "price": 5.6,
     "category": "פירות וירקות",
+    "inStock": false,
+    "createdAt": "2025-06-05T09:11:19.265Z",
+    "updatedAt": "2025-06-05T13:04:00.000Z"
+  },
+  {
+    "id": 24,
+    "name": "גבינה צהובה",
+    "description": "גבינה צהובה קשה איכותית 200 גרם",
+    "price": 12.9,
+    "category": "חלב וביצים",
+    "inStock": false,
+    "createdAt": "2025-06-05T11:00:00.000Z",
+    "updatedAt": "2025-06-05T13:00:00.000Z"
+  },
+  {
+    "id": 25,
+    "name": "תפוחי עץ אדומים",
+    "description": "תפוחי עץ אדומים מתוקים 1 ק\"ג",
+    "price": 9.9,
+    "category": "פירות וירקות",
     "inStock": true,
-    "createdAt": "2025-06-05T09:11:19.265Z"
+    "createdAt": "2025-06-05T11:01:00.000Z",
+    "updatedAt": "2025-06-05T11:01:00.000Z"
+  },
+  {
+    "id": 26,
+    "name": "אורז בסמטי",
+    "description": "אורז בסמטי איכותי 1 ק\"ג",
+    "price": 15.9,
+    "category": "חטיפים ומזון יבש",
+    "inStock": false,
+    "createdAt": "2025-06-05T11:02:00.000Z",
+    "updatedAt": "2025-06-05T13:01:00.000Z"
+  },
+  {
+    "id": 27,
+    "name": "עגבניות גדולות",
+    "description": "עגבניות בשליות טריות 1 ק\"ג",
+    "price": 8.9,
+    "category": "פירות וירקות",
+    "inStock": true,
+    "createdAt": "2025-06-05T11:03:00.000Z",
+    "updatedAt": "2025-06-05T11:03:00.000Z"
+  },
+  {
+    "id": 28,
+    "name": "שום",
+    "description": "שום סגול איכותי אריזת 100 גרם",
+    "price": 4.9,
+    "category": "פירות וירקות",
+    "inStock": true,
+    "createdAt": "2025-06-05T11:04:00.000Z",
+    "updatedAt": "2025-06-05T11:04:00.000Z"
+  },
+  {
+    "id": 29,
+    "name": "עוף טחון",
+    "description": "עוף טחון טרי 500 גרם",
+    "price": 19.9,
+    "category": "בשר ועוף",
+    "inStock": false,
+    "createdAt": "2025-06-05T11:05:00.000Z",
+    "updatedAt": "2025-06-05T13:02:00.000Z"
+  },
+  {
+    "id": 30,
+    "name": "תה שחור",
+    "description": "תה שחור איכותי קופסת 25 שקיקים",
+    "price": 12.5,
+    "category": "משקאות",
+    "inStock": true,
+    "createdAt": "2025-06-05T11:06:00.000Z",
+    "updatedAt": "2025-06-05T11:06:00.000Z"
+  },
+  {
+    "id": 31,
+    "name": "מלח ים",
+    "description": "מלח ים טבעי גס 500 גרם",
+    "price": 6.9,
+    "category": "שמנים ותבלינים",
+    "inStock": true,
+    "createdAt": "2025-06-05T11:07:00.000Z",
+    "updatedAt": "2025-06-05T11:07:00.000Z"
+  },
+  {
+    "id": 32,
+    "name": "חלות שבת",
+    "description": "חלת שבת מתוקה ארוגה 500 גרם",
+    "price": 14.9,
+    "category": "לחם ומאפים",
+    "inStock": false,
+    "createdAt": "2025-06-05T11:08:00.000Z",
+    "updatedAt": "2025-06-05T13:03:00.000Z"
+  },
+  {
+    "id": 33,
+    "name": "גזר מקולף",
+    "description": "גזר בייבי מקולף ושטוף 500 גרם",
+    "price": 7.9,
+    "category": "פירות וירקות",
+    "inStock": true,
+    "createdAt": "2025-06-05T11:09:00.000Z",
+    "updatedAt": "2025-06-05T11:09:00.000Z"
+  },
+  {
+    "id": 34,
+    "name": "מטרנה",
+    "description": "המטרנה היקרה של אלמי",
+    "price": 72,
+    "category": "חלב ומוצרי חלב",
+    "inStock": true,
+    "createdAt": "2025-06-06T09:19:17.886Z",
+    "updatedAt": ""
   }
 ]

@@ -7,12 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Loader2, Save, X } from 'lucide-react';
 
-import { createItem, updateItem } from '@/lib/api';
+import { createItemAction, updateItemAction } from '@/actions/items.action';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -20,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
 import {
   Form,
   FormControl,
@@ -57,14 +57,14 @@ const itemSchema = z.object({
     .max(100000, 'המחיר לא יכול להיות גדול מ-100,000'),
   category: z.string()
     .min(1, 'קטגוריה היא שדה חובה'),
+  inStock: z.boolean(),
 });
 
 type ItemFormData = z.infer<typeof itemSchema>;
 
 export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   
   const form = useForm<ItemFormData>({
     resolver: zodResolver(itemSchema),
@@ -73,26 +73,23 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
       description: item?.description || '',
       price: item?.price || 0,
       category: item?.category || '',
+      inStock: item?.inStock ?? true,
     },
   });
 
   const onSubmit = async (data: ItemFormData) => {
-    setLoading(true);
-    setError(null);
-
+    setSubmitError(null);
+    
     try {
       if (isEditing && item) {
-        await updateItem(item.id, data);
+        await updateItemAction(item.id, data);
       } else {
-        await createItem(data);
+        await createItemAction(data);
       }
       
-      router.push('/');
-      router.refresh();
+      // Server Actions handle redirect and revalidation automatically
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'אירעה שגיאה בשמירת הפריט');
-    } finally {
-      setLoading(false);
+      setSubmitError(err instanceof Error ? err.message : 'אירעה שגיאה בשמירת הפריט');
     }
   };
 
@@ -108,9 +105,9 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {error && (
+              {submitError && (
                 <div className="bg-destructive/15 border border-destructive/20 rounded-md p-4">
-                  <div className="text-sm text-destructive">{error}</div>
+                  <div className="text-sm text-destructive">{submitError}</div>
                 </div>
               )}
 
@@ -199,22 +196,48 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
+              {/* מצב מלאי */}
+              <FormField
+                control={form.control}
+                name="inStock"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">
+                        מצב מלאי
+                      </FormLabel>
+                      <div className="text-sm text-muted-foreground">
+                        האם הפריט זמין במלאי?
+                      </div>
+                    </div>
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={field.value}
+                        onChange={field.onChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
               {/* כפתורים */}
               <div className="flex justify-end gap-4 pt-6 border-t">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => router.back()}
-                  disabled={loading}
+                  disabled={form.formState.isSubmitting}
                 >
                   <X className="h-4 w-4 ml-1" />
                   ביטול
                 </Button>
                 <Button
                   type="submit"
-                  disabled={loading}
+                  disabled={form.formState.isSubmitting}
                 >
-                  {loading ? (
+                  {form.formState.isSubmitting ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin ml-1" />
                       שומר...

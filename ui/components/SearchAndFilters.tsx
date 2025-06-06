@@ -2,6 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { FilterOptions, SortOptions } from '@/types';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface SearchAndFiltersProps {
   onFiltersChange: (filters: FilterOptions) => void;
@@ -18,7 +28,6 @@ const categories = [
 ];
 
 const sortOptions = [
-  { value: '', label: 'ללא מיון' },
   { value: 'name-asc', label: 'שם פריט (א-ת)' },
   { value: 'name-desc', label: 'שם פריט (ת-א)' },
   { value: 'price-asc', label: 'מחיר (נמוך לגבוה)' },
@@ -91,92 +100,98 @@ export default function SearchAndFilters({ onFiltersChange, initialFilters = {} 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* חיפוש */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <Label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
             חיפוש
-          </label>
-          <input
+          </Label>
+          <Input
+            id="search"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="חפש פריט..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-        </div>
-
-        {/* קטגוריה */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            קטגוריה
-          </label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="">כל הקטגוריות</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* מיון */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            מיון לפי
-          </label>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* מחיר מינימלי */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <Label htmlFor="minPrice" className="block text-sm font-medium text-gray-700 mb-2">
             מחיר מינימלי
-          </label>
-          <input
+          </Label>
+          <Input
+            id="minPrice"
             type="number"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
             placeholder="0"
             min="0"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         {/* מחיר מקסימלי */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <Label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700 mb-2">
             מחיר מקסימלי
-          </label>
-          <input
+          </Label>
+          <Input
+            id="maxPrice"
             type="number"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
             placeholder="∞"
             min="0"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+        </div>
+
+        {/* קטגוריה ומיון */}
+        <div className="flex flex-col lg:flex-row lg:gap-4">
+          <div className="flex-1">
+            <Label className="block text-sm font-medium text-gray-700 mb-2">
+              קטגוריה
+            </Label>
+            <Select value={category || "all"} onValueChange={(value) => setCategory(value === "all" ? '' : value)}>
+              <SelectTrigger className="h-10 px-3 py-2">
+                <SelectValue placeholder="כל הקטגוריות" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">כל הקטגוריות</SelectItem>
+                {categories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex-1">
+            <Label className="block text-sm font-medium text-gray-700 mb-2">
+              מיון לפי
+            </Label>
+            <Select value={sortBy || "none"} onValueChange={(value) => setSortBy(value === "none" ? '' : value)}>
+              <SelectTrigger className="h-10 px-3 py-2">
+                <SelectValue placeholder="ללא מיון" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">ללא מיון</SelectItem>
+                {sortOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
       {(search || category || minPrice || maxPrice || sortBy) && (
         <div className="mt-4 pt-4 border-t">
-          <button
+          <Button
             onClick={clearFilters}
-            className="text-sm text-red-600 hover:text-red-800 font-medium transition-colors"
+            variant="ghost"
+            size="sm"
+            className="text-red-600 hover:text-red-800 hover:bg-red-50"
           >
             נקה כל הפילטרים
-          </button>
+          </Button>
         </div>
       )}
     </div>

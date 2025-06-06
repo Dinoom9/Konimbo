@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
-import { fetchItems } from '@/lib/api';
 import ItemsGrid from '@/components/ItemsGrid';
 import Loading from '@/components/Loading';
+import { fetchItemsAction } from '@/actions/items.action';
 
 
 interface PageProps {
@@ -34,7 +34,7 @@ export default async function HomePage({ searchParams }: PageProps) {
   let error = null;
 
   try {
-    initialData = await fetchItems(filters);
+    initialData = await fetchItemsAction(filters);
     console.log('Initial data from API:', initialData);
   } catch (err) {
     console.error('Error fetching items:', err);

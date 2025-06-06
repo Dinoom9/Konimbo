@@ -6,6 +6,7 @@ export interface Item {
   category: string;
   inStock: boolean;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateItemRequest {

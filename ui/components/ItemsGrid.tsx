@@ -3,12 +3,12 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useItems } from '@/context/ItemsContext';
-import { fetchItems, deleteItem } from '@/lib/api';
 import SearchAndFilters from './SearchAndFilters';
 import ItemCard from './ItemCard';
 import Loading from './Loading';
 import ErrorMessage from './ErrorMessage';
 import { ItemsResponse } from '@/types';
+import { deleteItemAction, fetchItemsAction } from '@/actions/items.action';
 
 interface ItemsGridProps {
   initialData: ItemsResponse;
@@ -44,7 +44,7 @@ export default function ItemsGrid({ initialData, initialError }: ItemsGridProps)
     dispatch({ type: 'SET_ERROR', payload: null });
 
     try {
-      const response = await fetchItems(state.filters);
+      const response = await fetchItemsAction(state.filters);
       console.log('📥 Received items:', response.items?.length || 0, 'items');
       dispatch({
         type: 'SET_ITEMS',
@@ -94,7 +94,7 @@ export default function ItemsGrid({ initialData, initialError }: ItemsGridProps)
     async (id: number) => {
       console.log('🗑️ Starting delete process for item:', id);
       try {
-        await deleteItem(id);
+        await deleteItemAction(id);
         console.log('✅ Delete API call successful, updating state');
         dispatch({ type: 'DELETE_ITEM', payload: id });
         console.log('✅ State updated, item removed from list');

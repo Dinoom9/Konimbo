@@ -42,9 +42,14 @@ export default function ItemCard({ item, onDelete }: ItemCardProps) {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Badge variant="secondary">
-                {item.category}
-              </Badge>
+              <div className="flex items-center gap-1">
+                <Badge variant="secondary">
+                  {item.category}
+                </Badge>
+                <Badge variant={item.inStock ? "default" : "destructive"}>
+                  {item.inStock ? "במלאי" : "אזל"}
+                </Badge>
+              </div>
               <span className="text-sm text-muted-foreground">
                 {formatDate(item.createdAt)}
               </span>

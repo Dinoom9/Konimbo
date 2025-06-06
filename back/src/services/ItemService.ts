@@ -35,7 +35,8 @@ export class ItemService {
       price: itemData.price,
       category: itemData.category,
       inStock: itemData.inStock ?? true,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      updatedAt: ''
     };
 
     items.push(newItem);

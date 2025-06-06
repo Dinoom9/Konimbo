@@ -6,6 +6,7 @@ export interface Item {
   category: string;
   createdAt: string;
   updatedAt: string;
+  inStock: boolean;
 }
 
 export interface ItemFormData {
@@ -13,6 +14,7 @@ export interface ItemFormData {
   description: string;
   price: number;
   category: string;
+  inStock: boolean;
 }
 
 export interface FilterOptions {
