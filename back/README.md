@@ -1,111 +1,200 @@
 # Backend API
 
-אפליקציית Backend API עבור ניהול מוצרי סופר עם Express, Vite ו-TypeScript.
+Backend API application for managing supermarket products with Express, Vite and TypeScript.
 
-## תכונות
+## Technologies Used
 
-- REST API מלא עם כל פעולות CRUD
-- שמירת נתונים בקובץ JSON
-- TypeScript עם Express
-- Vite לפיתוח מהיר
-- CORS enabled
+### Backend Framework
+- **Express.js** - Web framework for Node.js
+- **TypeScript** - JavaScript with type safety
+- **tsx** - TypeScript execution engine
+- **CORS** - Cross-Origin Resource Sharing support
 
-## התקנה והרצה
+### Development Tools
+- **Vite** - Fast build tool for development
+- **Node.js** - Runtime environment
+- **npm** - Package manager
 
+### Storage
+- **JSON Files** - Data storage in JSON files
+
+## Project Structure
+
+```
+backend-api/
+├── src/
+│   ├── controllers/     # Controllers for handling HTTP requests
+│   │   └── ItemController.ts
+│   ├── routes/          # API routes definition
+│   │   └── itemRoutes.ts
+│   ├── services/        # Business logic
+│   │   └── ItemService.ts
+│   ├── types/           # TypeScript interfaces
+│   │   └── Item.ts
+│   └── index.ts         # Application entry point
+├── data/
+│   └── items.json       # Data file
+├── package.json         # Dependencies and scripts
+├── tsconfig.json        # TypeScript configuration
+├── vite.config.ts       # Vite configuration
+└── README.md            # This documentation
+```
+
+## Installation and Running
+
+### Installation
 ```bash
-# התקנת dependencies
-npm install
+# Clone the project
+git clone <repository-url>
+cd backend-api
 
-# הרצה במצב פיתוח
+# Install dependencies
+npm install
+```
+
+### Running
+```bash
+# Run in development mode (recommended)
 npm run dev
 
-# בנייה לפרודקשן
+# Build for production
 npm run build
 
-# הרצה בפרודקשן
+# Run in production
 npm start
+
+# Run with preview
+npm run preview
 ```
+
+The application will run on http://localhost:3001
+
+## Features
+
+- Full REST API with all CRUD operations
+- Data persistence in JSON file
+- TypeScript with Express
+- Vite for fast development
+- CORS enabled
+- Support for advanced filtering and search
 
 ## API Endpoints
 
 | Method | Endpoint | Description | Query Parameters |
 |--------|----------|-------------|------------------|
-| GET | `/items` | קבלת כל המוצרים | `category`, `inStock`, `minPrice`, `maxPrice`, `search` |
-| GET | `/items/:id` | קבלת מוצר בודד | - |
-| POST | `/items` | יצירת מוצר חדש | - |
-| PUT | `/items/:id` | עדכון מוצר | - |
-| DELETE | `/items/:id` | מחיקת מוצר | - |
+| GET | `/items` | Get all items | `category`, `inStock`, `minPrice`, `maxPrice`, `search` |
+| GET | `/items/:id` | Get single item | - |
+| POST | `/items` | Create new item | - |
+| PUT | `/items/:id` | Update item | - |
+| DELETE | `/items/:id` | Delete item | - |
 
-### Query Parameters עבור GET /items:
-- **category** - סינון לפי קטגוריה (חיפוש חלקי)
-- **inStock** - סינון לפי זמינות (`true`/`false`)
-- **minPrice** - מחיר מינימלי
-- **maxPrice** - מחיר מקסימלי  
-- **search** - חיפוש בשם או תיאור המוצר
+### Query Parameters for GET /items:
+- **category** - Filter by category (partial search)
+- **inStock** - Filter by availability (`true`/`false`)
+- **minPrice** - Minimum price
+- **maxPrice** - Maximum price  
+- **search** - Search in item name or description
 
-## דוגמאות שימוש
+## Usage Examples
 
-### קבלת כל המוצרים
+### Get all items
 ```bash
 curl http://localhost:3001/items
 ```
 
-### קבלת מוצרים עם query parameters
+### Get items with query parameters
 ```bash
-# סינון לפי קטגוריה
-curl "http://localhost:3001/items?category=חלב"
+# Filter by category
+curl "http://localhost:3001/items?category=milk"
 
-# סינון לפי זמינות במלאי
+# Filter by stock availability
 curl "http://localhost:3001/items?inStock=true"
 
-# סינון לפי טווח מחירים
+# Filter by price range
 curl "http://localhost:3001/items?minPrice=5&maxPrice=15"
 
-# חיפוש מוצרים
-curl "http://localhost:3001/items?search=חלב"
+# Search items
+curl "http://localhost:3001/items?search=milk"
 
-# שילוב מספר פילטרים
-curl "http://localhost:3001/items?category=פירות&inStock=true&maxPrice=10"
+# Combine multiple filters
+curl "http://localhost:3001/items?category=fruits&inStock=true&maxPrice=10"
 ```
 
-### יצירת מוצר חדש
+### Create new item
 ```bash
 curl -X POST http://localhost:3001/items \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "בננות",
-    "description": "בננות טריות מובחרות 1 ק\"ג",
+    "name": "Bananas",
+    "description": "Fresh premium bananas 1kg",
     "price": 8.90,
-    "category": "פירות וירקות",
+    "category": "Fruits and Vegetables",
     "inStock": true
   }'
 ```
 
-### עדכון מוצר
+### Update item
 ```bash
 curl -X PUT http://localhost:3001/items/1 \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "חלב 3% טרה - מבצע",
+    "name": "Milk 3% Tnuva - Sale",
     "price": 5.90,
     "inStock": false
   }'
 ```
 
-### מחיקת מוצר
+### Delete item
 ```bash
 curl -X DELETE http://localhost:3001/items/1
 ```
 
-## מבנה הפרויקט
+## Testing - Optional
 
+The project is ready for adding tests with the following technologies:
+
+### Installing Testing Tools
+```bash
+# For backend testing
+npm install --save-dev jest supertest @types/jest @types/supertest
+
+# For React components (if frontend exists)
+npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/user-event
 ```
-src/
-├── controllers/     # Controllers לטיפול בבקשות HTTP
-├── routes/         # Routes definition
-├── services/       # Business logic
-├── types/          # TypeScript interfaces
-└── index.ts        # Entry point
-data/
-└── items.json      # קובץ נתונים
+
+### Recommended Test Structure
+```
+tests/
+├── unit/            # Unit tests
+│   ├── services/    # Service tests
+│   └── controllers/ # Controller tests
+├── integration/     # Integration tests
+│   └── api/         # API endpoint tests
+└── setup.ts         # Test configuration
+```
+
+### API Test Example
+```javascript
+import request from 'supertest';
+import app from '../src/index';
+
+describe('Items API', () => {
+  test('GET /items should return all items', async () => {
+    const response = await request(app).get('/items');
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+  });
+});
+```
+
+### Running Tests
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
 ``` 
