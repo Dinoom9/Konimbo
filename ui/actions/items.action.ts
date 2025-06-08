@@ -4,7 +4,6 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { FilterOptions, Item, ItemFormData, ItemsResponse } from "@/types";
 import { buildQueryParams, sortItems, formatItemsResponse, buildUrlWithQuery } from "@/lib/utils";
-import { X } from 'lucide-react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -14,8 +13,6 @@ class ApiError extends Error {
     this.name = 'ApiError';
   }
 }
-
-
 // connect to the server
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
@@ -48,7 +45,7 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
     }
     
     const data = JSON.parse(text);
-    console.log('🔍 Data:', data);
+    console.log('Data from apiRequest:', data);
     return data as T;
   } catch (error) {
     console.error('API Request Error:', error);
@@ -71,18 +68,17 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
     throw new ApiError(500, `Network Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
-
 // Server Actions for Items
 export async function fetchItemsAction(filters?: FilterOptions): Promise<ItemsResponse> {
   const queryParams = buildQueryParams(filters);
   const url = buildUrlWithQuery('/items', queryParams);
   
-  console.log('🔍 Fetching items with URL:', `${BASE_URL}${url}`);
-  console.log('📋 Filters:', filters);
+  console.log('Fetching items with URL:', `${BASE_URL}${url}`);
+  console.log('Filters:', filters);
   
   const response = await apiRequest<any>(url);
   
-  console.log('📦 API Response:', response);
+  console.log('API Response:', response);
   
   // Format the response to ensure correct structure
   let result = formatItemsResponse(response);
@@ -92,7 +88,7 @@ export async function fetchItemsAction(filters?: FilterOptions): Promise<ItemsRe
     result.items = sortItems(result.items, filters.sort);
   }
   
-  console.log('✅ Formatted result:', result);
+  console.log('Formatted result:', result);
   
   return result;
 }
@@ -102,21 +98,21 @@ export async function fetchItemByIdAction(id: number): Promise<Item> {
 }
 // create an item
 export async function createItemAction(data: ItemFormData) {
-  console.log('🚀 Starting createItemAction with data:', data);
+  console.log(' Starting createItemAction with data:', data);
   
   try {
-    console.log('📡 Making API request to create item...');
+    console.log('Making API request to create item...');
     const item = await apiRequest<Item>('/items', {
       method: 'POST',
       body: JSON.stringify(data),
     });
     
-    console.log('✅ Item created successfully:', item);
+    console.log('Item created successfully:', item);
     
-    console.log('🔄 Revalidating path...');
+    console.log('Revalidating path...');
     revalidatePath('/');
     
-    console.log('🔀 Redirecting to home page...');
+    console.log('Redirecting to home page...');
     redirect('/');
   } catch (error) {
     console.error('❌ Error creating item:', error);
@@ -146,15 +142,15 @@ export async function updateItemAction(id: number, data: ItemFormData) {
 }
 // delete an item
 export async function deleteItemAction(id: number) {
-  console.log('🗑️ Deleting item with ID:', id);
+  console.log('Deleting item with ID:', id);
   try {
     const result = await apiRequest(`/items/${id}`, { method: 'DELETE' });
-    console.log('✅ Item deleted successfully');
+    console.log('Item deleted successfully');
     
     revalidatePath('/');
     return result;
   } catch (error) {
-    console.error('❌ Error deleting item:', error);
+    console.error('Error deleting item:', error);
     throw error;
   }
 }

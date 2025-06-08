@@ -100,16 +100,6 @@
     "updatedAt": ""
   },
   {
-    "id": 36,
-    "name": "כגכג",
-    "description": "גכגכגכגכגכ",
-    "price": 121,
-    "category": "שמנים ותבלינים",
-    "inStock": true,
-    "createdAt": "2025-06-06T12:57:48.285Z",
-    "updatedAt": ""
-  },
-  {
     "id": 37,
     "name": "קרונפלקס אלופים",
     "description": "גדכגדכגדדבבגג",
@@ -118,5 +108,15 @@
     "inStock": true,
     "createdAt": "2025-06-06T12:59:58.920Z",
     "updatedAt": ""
+  },
+  {
+    "id": 38,
+    "name": "במבה אדומה",
+    "description": "במבה אדומה של אסם ",
+    "price": 7.8,
+    "category": "לחם ומאפים",
+    "inStock": true,
+    "createdAt": "2025-06-08T09:32:39.505Z",
+    "updatedAt": "2025-06-08T09:34:19.013Z"
   }
 ]

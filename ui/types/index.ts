@@ -44,3 +44,13 @@ export interface ItemsResponse {
 } 
 
 
+
+export interface ItemsState {
+  items: Item[];
+  loading: boolean;
+  error: string | null;
+  filters: FilterOptions;
+  sort: SortOptions;
+  total: number;
+  page: number;
+}

@@ -29,22 +29,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Item } from '@/types';
+import { categories } from '@/config/config';
 
+/**
+ * Props interface for ItemForm component
+ * @interface ItemFormProps
+ */
 interface ItemFormProps {
-  item?: Item;
-  isEditing?: boolean;
+  item?: Item;          // Optional existing item for editing
+  isEditing?: boolean;  // Flag to determine if this is edit or create mode
 }
 
-const categories = [
-  'חלב ומוצרי חלב',
-  'לחם ומאפים',
-  'פירות וירקות',
-  'בשר ועוף',
-  'שמנים ותבלינים',
-  'אורז ופסטה'
-];
 
-// Zod schema for validation
+/**
+ * Zod validation schema for item form
+ * Provides comprehensive form validation with Hebrew error messages
+ */
 const itemSchema = z.object({
   name: z.string()
     .min(1, 'שם הפריט הוא שדה חובה')
@@ -60,12 +60,29 @@ const itemSchema = z.object({
   inStock: z.boolean(),
 });
 
+// Type inference from Zod schema
 type ItemFormData = z.infer<typeof itemSchema>;
 
+/**
+ * ItemForm Component
+ * 
+ * A comprehensive form component for creating and editing items.
+ * Features:
+ * - Form validation using Zod schema
+ * - Controlled form inputs with react-hook-form
+ * - Error handling and display
+ * - Loading states during submission
+ * - Automatic redirect after successful submission
+ * - Support for both create and edit modes
+ * 
+ * @param item - Optional existing item data for editing
+ * @param isEditing - Boolean flag indicating edit vs create mode
+ */
 export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
   const router = useRouter();
   const [submitError, setSubmitError] = useState<string | null>(null);
   
+  // Initialize react-hook-form with Zod validation
   const form = useForm<ItemFormData>({
     resolver: zodResolver(itemSchema),
     defaultValues: {
@@ -77,6 +94,11 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
     },
   });
 
+  /**
+   * Form submission handler
+   * Handles both create and update operations
+   * Includes comprehensive error handling for Next.js redirects
+   */
   const onSubmit = async (data: ItemFormData) => {
     setSubmitError(null);
     
@@ -99,8 +121,8 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
         return;
       }
       
-      console.error('❌ Form submission error:', err);
-      console.error('❌ Error details:', {
+      console.error('Form submission error:', err);
+      console.error('Error details:', {
         name: err instanceof Error ? err.name : 'Unknown',
         message: err instanceof Error ? err.message : 'Unknown error',
         stack: err instanceof Error ? err.stack : undefined
@@ -123,13 +145,14 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Error display section */}
               {submitError && (
                 <div className="bg-destructive/15 border border-destructive/20 rounded-md p-4">
                   <div className="text-sm text-destructive">{submitError}</div>
                 </div>
               )}
 
-              {/* שם הפריט */}
+              {/* Item name field */}
               <FormField
                 control={form.control}
                 name="name"
@@ -147,7 +170,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
-              {/* תיאור */}
+              {/* Item description field */}
               <FormField
                 control={form.control}
                 name="description"
@@ -166,7 +189,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
-              {/* מחיר */}
+              {/* Price field */}
               <FormField
                 control={form.control}
                 name="price"
@@ -188,7 +211,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
-              {/* קטגוריה */}
+              {/* Category selection field */}
               <FormField
                 control={form.control}
                 name="category"
@@ -202,7 +225,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories.map((category) => (
+                        {categories.map((category: string) => (
                           <SelectItem key={category} value={category}>
                             {category}
                           </SelectItem>
@@ -214,7 +237,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
-              {/* מצב מלאי */}
+              {/* Stock status checkbox */}
               <FormField
                 control={form.control}
                 name="inStock"
@@ -240,7 +263,7 @@ export default function ItemForm({ item, isEditing = false }: ItemFormProps) {
                 )}
               />
 
-              {/* כפתורים */}
+              {/* Action buttons */}
               <div className="flex justify-end gap-4 pt-6 border-t">
                 <Button
                   type="button"
